@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}Мои сдачи — Батарейки на переработку{% endblock %}
+{% block content %}
+<div class="page-content">
+    <span class="big-number text-secondary opacity-25 d-block mb-2" style="position: static; font-size: 4rem;">02</span>
+    <h1 class="mb-4">Мои сдачи батареек</h1>
+
+    <div class="card-nature">
+        <div class="accent-line"></div>
+        <p class="mb-4"><strong>Всего вы сдали: {{ user_total }} батареек.</strong></p>
+        <form method="post" action="" class="form-nature" id="submission-form">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.count.label_tag }}
+                {{ form.count }}
+                {{ form.count.errors }}
+            </div>
+            <div class="mb-3 position-relative" id="city-autocomplete-wrap">
+                {{ form.city.label_tag }}
+                {{ form.city }}
+                {{ form.city.errors }}
+                <ul class="autocomplete-dropdown list-unstyled mb-0" id="city-dropdown" aria-hidden="true"></ul>
+            </div>
+            <button type="submit" class="btn-nature">Добавить сдачу</button>
+        </form>
+    </div>
+
+    <div class="card-nature">
+        <div class="accent-line"></div>
+        <h2>История сдач</h2>
+        {% if submissions %}
+            <ul class="submissions-list">
+                {% for s in submissions %}
+                    <li>
+                        <span>{{ s.count }} шт.{% if s.city %} — {{ s.city }}{% endif %}</span>
+                        <span class="text-muted">{{ s.created_at|date:"d.m.Y H:i" }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted mb-0">Пока нет записей. Добавьте первую сдачу выше.</p>
+        {% endif %}
+    </div>
+
+    <p class="mt-4"><a href="{% url 'batteries:home' %}" class="link-muted">← На главную</a></p>
+</div>
+
+<script>
+(function() {
+    var cities = {{ cities_json|safe }};
+    var input = document.getElementById('id_city_autocomplete');
+    var dropdown = document.getElementById('city-dropdown');
+
+    if (!input || !dropdown) return;
+
+    function normalize(s) {
+        return s.toLowerCase().trim();
+    }
+
+    function filterCities(query) {
+        var q = normalize(query);
+        if (!q) return cities.slice(0, 15);
+        return cities.filter(function(city) {
+            return normalize(city).indexOf(q) === 0;
+        }).slice(0, 15);
+    }
+
+    function showDropdown(items) {
+        dropdown.innerHTML = '';
+        if (items.length === 0) {
+            dropdown.setAttribute('aria-hidden', 'true');
+            dropdown.classList.remove('autocomplete-dropdown-visible');
+            return;
+        }
+        items.forEach(function(city) {
+            var li = document.createElement('li');
+            li.className = 'autocomplete-item';
+            li.textContent = city;
+            li.tabIndex = 0;
+            li.addEventListener('click', function() {
+                input.value = city;
+                dropdown.innerHTML = '';
+                dropdown.setAttribute('aria-hidden', 'true');
+                dropdown.classList.remove('autocomplete-dropdown-visible');
+                input.focus();
+            });
+            dropdown.appendChild(li);
+        });
+        dropdown.setAttribute('aria-hidden', 'false');
+        dropdown.classList.add('autocomplete-dropdown-visible');
+    }
+
+    function onInput() {
+        var value = input.value.trim();
+        var items = filterCities(value);
+        showDropdown(items);
+    }
+
+    input.addEventListener('input', onInput);
+    input.addEventListener('focus', function() {
+        onInput();
+    });
+    input.addEventListener('blur', function() {
+        setTimeout(function() {
+            dropdown.classList.remove('autocomplete-dropdown-visible');
+        }, 200);
+    });
+
+    dropdown.addEventListener('keydown', function(e) {
+        var items = dropdown.querySelectorAll('.autocomplete-item');
+        if (e.key === 'Enter' && items.length) {
+            e.preventDefault();
+            items[0].click();
+        }
+    });
+})();
+</script>
+{% endblock %}

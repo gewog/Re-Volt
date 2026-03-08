@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Регистрация — Батарейки на переработку{% endblock %}
+{% block content %}
+<div class="page-content">
+    <div class="card-nature" style="max-width: 400px;">
+        <div class="accent-line"></div>
+        <h1 class="h3 mb-4">Регистрация</h1>
+        <form method="post" action="" class="form-nature">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-3">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn-nature">Зарегистрироваться</button>
+        </form>
+        <p class="mt-4 mb-0"><a href="{% url 'batteries:login' %}" class="link-muted">Уже есть аккаунт? Войти</a></p>
+    </div>
+</div>
+{% endblock %}

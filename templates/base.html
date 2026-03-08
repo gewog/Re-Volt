@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Батарейки на переработку{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+:root {
+  --green-deep: #1a2e1a;
+  --green-mid: #2d5a2d;
+  --green-dark: #0f1a0f;
+  --grey-bg: #e8e6e3;
+  --grey-block: #d4d0c8;
+  --grey-muted: #9a958d;
+  --beige: #e2dfd9;
+  --accent-line: #b8a873;
+  --text-dark: #2c2c2c;
+  --text-light: rgba(255,255,255,0.95);
+}
+body { font-family: 'Source Sans 3', system-ui, sans-serif; color: var(--text-dark); background: var(--grey-bg); margin: 0; min-height: 100vh; }
+h1, .display-title { font-family: 'Playfair Display', Georgia, serif; font-weight: 400; color: var(--green-deep); letter-spacing: 0.02em; }
+h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.35rem; font-weight: 400; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
+.nav-nature { padding: 1.25rem 0; border-bottom: 1px solid var(--grey-block); background: #fff; }
+.nav-nature .nav-link { color: var(--green-deep); font-weight: 600; letter-spacing: 0.03em; padding: 0.5rem 1rem; text-decoration: none; }
+.nav-nature .nav-link:hover { color: var(--green-mid); }
+.hero-nature { background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-deep) 50%, #1e3d1e 100%); color: var(--text-light); padding: 4rem 2rem 5rem; position: relative; overflow: hidden; }
+.hero-nature::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); pointer-events: none; }
+.hero-nature .display-title { color: var(--text-light); font-size: clamp(1.75rem, 4vw, 2.75rem); line-height: 1.25; margin-bottom: 1rem; position: relative; }
+.hero-nature .lead { opacity: 0.9; font-size: 1.05rem; max-width: 32ch; position: relative; }
+.big-number { font-family: 'Source Sans 3', sans-serif; font-weight: 200; font-size: clamp(6rem, 18vw, 12rem); line-height: 1; color: rgba(255,255,255,0.08); position: absolute; right: 5%; top: 50%; transform: translateY(-50%); user-select: none; }
+.stat-block { background: var(--beige); padding: 3rem 2rem; margin-top: -2rem; position: relative; z-index: 1; }
+.stat-number { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(3rem, 8vw, 5rem); font-weight: 400; color: var(--green-mid); line-height: 1.1; }
+.stat-label { text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.8rem; color: var(--grey-muted); margin-bottom: 0.5rem; }
+.card-nature { background: #fff; border: none; border-radius: 0; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.card-nature .accent-line { width: 40px; height: 2px; background: var(--accent-line); margin-bottom: 1rem; }
+.btn-nature { background: var(--green-deep); color: #fff !important; border: none; padding: 0.75rem 1.5rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.85rem; border-radius: 0; text-decoration: none; display: inline-block; transition: background 0.2s; cursor: pointer; }
+.btn-nature:hover { background: var(--green-mid); color: #fff !important; }
+.btn-nature-outline { background: transparent; color: var(--green-deep) !important; border: 2px solid var(--green-deep); }
+.btn-nature-outline:hover { background: var(--green-deep); color: #fff !important; }
+/* В герое: «Войти» — светлая обводка и текст, заметно, но вторично по отношению к «Зарегистрироваться» */
+.hero-nature .btn-nature-outline { color: rgba(255,255,255,0.95) !important; border-color: rgba(255,255,255,0.7); }
+.hero-nature .btn-nature-outline:hover { background: rgba(255,255,255,0.15); color: #fff !important; border-color: #fff; }
+.form-nature .form-control, .form-nature input[type="text"], .form-nature input[type="number"], .form-nature input[type="password"], .form-nature input[type="email"] { border: 1px solid var(--grey-block); border-radius: 0; padding: 0.75rem 1rem; max-width: 320px; }
+.form-nature .form-control:focus { border-color: var(--green-mid); box-shadow: 0 0 0 3px rgba(45, 90, 45, 0.15); }
+.form-nature label { font-weight: 600; color: var(--text-dark); margin-bottom: 0.35rem; }
+.messages-nature { list-style: none; padding: 0; margin: 0 0 1.5rem 0; }
+.messages-nature li { padding: 0.75rem 1rem; margin-bottom: 0.5rem; font-size: 0.95rem; }
+.messages-nature .success { background: #d4e8d4; color: #1a3d1a; }
+.messages-nature .error { background: #f5e0e0; color: #5c2a2a; }
+.submissions-list { list-style: none; padding: 0; margin: 0; }
+.submissions-list li { padding: 1rem 0; border-bottom: 1px solid var(--grey-block); display: flex; justify-content: space-between; align-items: center; }
+.submissions-list li:last-child { border-bottom: none; }
+.link-muted { color: var(--grey-muted); text-decoration: none; font-size: 0.95rem; }
+.link-muted:hover { color: var(--green-mid); }
+.page-content { max-width: 720px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+.errorlist { list-style: none; padding: 0; margin: 0.25rem 0 0 0; font-size: 0.9rem; color: #a52a2a; }
+.text-muted { color: var(--grey-muted) !important; }
+/* Автоподстановка города */
+.autocomplete-dropdown { position: absolute; top: 100%; left: 0; right: 0; max-width: 320px; max-height: 240px; overflow-y: auto; background: #fff; border: 1px solid var(--grey-block); border-top: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none; z-index: 100; }
+.autocomplete-dropdown-visible { display: block; }
+.autocomplete-item { padding: 0.6rem 1rem; cursor: pointer; font-size: 0.95rem; border-bottom: 1px solid var(--grey-bg); }
+.autocomplete-item:hover, .autocomplete-item:focus { background: var(--grey-bg); outline: none; }
+.autocomplete-item:last-child { border-bottom: none; }
+/* Карта России */
+.map-section { padding: 3rem 0 4rem; background: var(--grey-bg); }
+.map-section-header { margin-bottom: 1.5rem; }
+.map-section-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.35rem; color: var(--green-deep); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+.map-section-desc { font-size: 0.95rem; margin: 0; }
+.map-russia { width: 100%; height: 420px; border: 1px solid var(--grey-block); background: var(--beige); border-radius: 0; }
+.leaflet-container { font-family: 'Source Sans 3', system-ui, sans-serif; }
+.map-marker-nature { background: none; border: none; }
+.map-marker-dot { display: block; width: 12px; height: 12px; background: var(--green-mid); border: 2px solid #fff; border-radius: 50%; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+.map-marker-dot:hover { background: var(--green-deep); }
+.leaflet-tooltip.map-tooltip-nature { background: #fff !important; border: 1px solid var(--grey-block) !important; border-radius: 0; padding: 0.5rem 0.75rem; font-size: 0.9rem; color: var(--text-dark) !important; box-shadow: 0 2px 12px rgba(0,0,0,0.15); z-index: 1000 !important; opacity: 1 !important; pointer-events: none; }
+.leaflet-tooltip.map-tooltip-nature::before { border-top-color: var(--grey-block) !important; }
+.map-marker-nature { cursor: pointer; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="nav-nature">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <a class="nav-link" href="{% url 'batteries:home' %}">Главная</a>
+                    <div class="d-flex flex-wrap gap-1">
+                        {% if user.is_authenticated %}
+                            <a class="nav-link" href="{% url 'batteries:my_submissions' %}">Мои сдачи</a>
+                            <a class="nav-link" href="{% url 'batteries:logout' %}">Выйти ({{ user.username }})</a>
+                        {% else %}
+                            <a class="nav-link" href="{% url 'batteries:login' %}">Войти</a>
+                            <a class="nav-link" href="{% url 'batteries:register' %}">Регистрация</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    {% if messages %}
+        <div class="container py-2">
+            <ul class="messages-nature">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

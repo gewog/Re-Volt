@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Вход — Батарейки на переработку{% endblock %}
+{% block content %}
+<div class="page-content">
+    <div class="card-nature" style="max-width: 400px;">
+        <div class="accent-line"></div>
+        <h1 class="h3 mb-4">Вход</h1>
+        <form method="post" action="{% url 'batteries:login' %}" class="form-nature">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_username">Имя пользователя</label>
+                <input type="text" name="username" id="id_username" class="form-control" required autofocus>
+            </div>
+            <div class="mb-3">
+                <label for="id_password">Пароль</label>
+                <input type="password" name="password" id="id_password" class="form-control" required>
+            </div>
+            {% if form.non_field_errors %}
+                <ul class="errorlist">{{ form.non_field_errors }}</ul>
+            {% endif %}
+            <button type="submit" class="btn-nature">Войти</button>
+        </form>
+        <p class="mt-4 mb-0"><a href="{% url 'batteries:register' %}" class="link-muted">Нет аккаунта? Зарегистрироваться</a></p>
+    </div>
+</div>
+{% endblock %}

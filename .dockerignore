@@ -1,0 +1,41 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv
+.venv
+env
+.env
+.env.*
+*.egg-info
+.eggs
+dist
+build
+
+# Django
+*.log
+db.sqlite3
+media
+staticfiles
+local_settings.py
+
+# IDE и ОС
+.idea
+.vscode
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Документация и прочее
+README.md
+*.md
+terminals
+agent-transcripts
+assets
