@@ -17,5 +17,5 @@ COPY . .
 
 EXPOSE 8000
 
-# Миграции и запуск Gunicorn
-CMD ["sh", "-c", "python manage.py migrate --noinput && gunicorn bat.wsgi -b 0.0.0.0:8000"]
+# Миграции, сбор статики и запуск Gunicorn
+CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn bat.wsgi -b 0.0.0.0:8000"]

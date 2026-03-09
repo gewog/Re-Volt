@@ -23,7 +23,7 @@
 | Категория | Технологии |
 |-----------|------------|
 | Backend | Python 3.12, Django 4.2 |
-| База данных | SQLite3 |
+| База данных | SQLite3 (локально), PostgreSQL (Render) |
 | Frontend | HTML5, CSS3, Bootstrap 5, JavaScript |
 | Шрифты | Playfair Display, Source Sans 3 (Google Fonts) |
 | Продакшен | Gunicorn |
@@ -118,6 +118,45 @@ docker compose exec web python manage.py createsuperuser
 
 ---
 
+### Вариант 3: Render (облачный деплой)
+
+1. **Загрузите проект на GitHub** (если ещё не сделали).
+
+2. **Подключите репозиторий к Render:**
+   - Перейдите на [dashboard.render.com](https://dashboard.render.com/)
+   - Blueprints → New Blueprint Instance
+   - Выберите репозиторий с проектом
+   - Render создаст Web Service и PostgreSQL по `render.yaml`
+
+3. После деплоя сайт будет доступен по адресу `https://bat-xxxx.onrender.com`
+
+4. **Создание суперпользователя** — в Dashboard Render: ваш сервис → Shell → выполните:
+   ```bash
+   python manage.py createsuperuser
+   ```
+
+**Примечание:** на бесплатном плане сервис «засыпает» после 15 минут неактивности; первый запрос после паузы может занять 30–60 секунд.
+
+---
+
+## Деплой на внешний хостинг (безопасность)
+
+Перед публикацией на внешний сервис **обязательно** настройте переменные окружения (см. `env.example`):
+
+| Переменная | Описание |
+|------------|----------|
+| `DJANGO_SECRET_KEY` | Уникальный секретный ключ (сгенерируйте новый) |
+| `DJANGO_DEBUG` | `0` для продакшена |
+| `ALLOWED_HOSTS` | Ваш домен (например, `example.com,www.example.com`) |
+| `CSRF_TRUSTED_ORIGINS` | `https://example.com,https://www.example.com` |
+| `SECURE_SSL_REDIRECT` | `1` при использовании HTTPS |
+
+Сайт должен работать по **HTTPS**. В проекте включены: защита от XSS, CSRF, clickjacking, HSTS, безопасные cookies.
+
+Проверка настроек: `python manage.py check --deploy`
+
+---
+
 ## Пример работы
 
 1. **Главная страница** — общее количество сданных батареек, призыв зарегистрироваться или войти, ниже — **карта России** с точками по городам; при наведении на точку видно название города и количество батареек.
@@ -157,6 +196,8 @@ bat/
 ├── requirements.txt
 ├── Dockerfile
 ├── docker-compose.yml
+├── render.yaml          # Blueprint для деплоя на Render
+├── build.sh             # Скрипт сборки для Render
 ├── .dockerignore
 ├── .gitignore
 └── README.md

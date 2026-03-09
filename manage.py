@@ -3,6 +3,16 @@
 import os
 import sys
 
+# Загрузка .env для локальной разработки (до инициализации Django)
+from pathlib import Path
+_env = Path(__file__).resolve().parent / '.env'
+if _env.exists():
+    try:
+        from dotenv import load_dotenv
+        load_dotenv(_env)
+    except ImportError:
+        os.environ.setdefault('DJANGO_DEBUG', '1')  # .env есть, dotenv нет — локальная разработка
+
 
 def main():
     """Run administrative tasks."""
