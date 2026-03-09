@@ -20,6 +20,8 @@ db.sqlite3
 media/
 staticfiles/
 local_settings.py
+cert.crt
+cert.key
 
 # IDE
 .idea/

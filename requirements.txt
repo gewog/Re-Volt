@@ -1,2 +1,10 @@
 Django>=4.2,<5
 gunicorn>=21.0
+whitenoise>=6.6
+python-dotenv>=1.0
+django-extensions>=3.2
+Werkzeug>=3.0
+pyOpenSSL>=23.0
+# Production (Render, PostgreSQL)
+psycopg2-binary>=2.9
+dj-database-url>=2.1
